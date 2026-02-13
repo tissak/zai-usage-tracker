@@ -193,9 +193,7 @@ struct SettingsView: View {
     // MARK: - Actions
     
     private func loadCurrentSettings() {
-        if let existingKey = try? KeychainService.shared.getAPIKey() {
-            apiKey = existingKey
-        }
+        apiKey = viewModel.cachedAPIKey ?? ""
     }
     
     private func saveSettings() async {

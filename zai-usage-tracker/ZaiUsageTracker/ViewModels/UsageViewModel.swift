@@ -43,6 +43,10 @@ final class UsageViewModel: ObservableObject {
         _hasAPIKey
     }
     
+    var cachedAPIKey: String? {
+        _cachedAPIKey
+    }
+    
     var tokenPercentage: Double {
         usageData?.tokenPercentage ?? 0
     }

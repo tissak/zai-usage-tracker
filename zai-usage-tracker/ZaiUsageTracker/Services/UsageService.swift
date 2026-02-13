@@ -6,19 +6,13 @@ final class UsageService: ObservableObject {
     @Published var lastError: String?
     
     private let apiClient = ZaiAPIClient.shared
-    private let keychain = KeychainService.shared
     
     var platform: Platform = .global
     
     func refresh(apiKey: String? = nil) async {
-        let key: String?
-        if let apiKey = apiKey, !apiKey.isEmpty {
-            key = apiKey
-        } else {
-            key = try? keychain.getAPIKey()
-        }
-        
-        guard let key = key, !key.isEmpty else {
+        // Use provided apiKey directly - never fallback to keychain in UsageService
+        // The caller (ViewModel) should handle keychain access and caching
+        guard let key = apiKey, !key.isEmpty else {
             state = .error("API key not configured. Please add your API key in Settings.")
             return
         }
