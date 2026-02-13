@@ -8,11 +8,17 @@ final class UsageService: ObservableObject {
     private let apiClient = ZaiAPIClient.shared
     private let keychain = KeychainService.shared
     
-    var apiKey: String?
     var platform: Platform = .global
     
-    func refresh() async {
-        guard let apiKey = try? keychain.getAPIKey(), !apiKey.isEmpty else {
+    func refresh(apiKey: String? = nil) async {
+        let key: String?
+        if let apiKey = apiKey, !apiKey.isEmpty {
+            key = apiKey
+        } else {
+            key = try? keychain.getAPIKey()
+        }
+        
+        guard let key = key, !key.isEmpty else {
             state = .error("API key not configured. Please add your API key in Settings.")
             return
         }
@@ -23,10 +29,10 @@ final class UsageService: ObservableObject {
         do {
             let (quotaResponse, modelResponse, toolResponse) = try await apiClient.fetchAll(
                 platform: platform,
-                apiKey: apiKey
+                apiKey: key
             )
             
-            let quotaInfos = quotaResponse.limits.map { QuotaInfo(from: $0) }
+            let quotaInfos = quotaResponse.data.limits.map { QuotaInfo(from: $0) }
             let modelUsage = ModelUsageInfo(from: modelResponse)
             let toolUsage = ToolUsageInfo(from: toolResponse)
             

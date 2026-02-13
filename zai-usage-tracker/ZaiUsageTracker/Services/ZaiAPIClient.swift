@@ -21,8 +21,8 @@ enum Platform: String, CaseIterable {
 
 enum APIEndpoint {
     case quotaLimit
-    case modelUsage(startTime: Int64, endTime: Int64)
-    case toolUsage(startTime: Int64, endTime: Int64)
+    case modelUsage(startTime: String, endTime: String)
+    case toolUsage(startTime: String, endTime: String)
     
     var path: String {
         switch self {
@@ -39,8 +39,8 @@ enum APIEndpoint {
         switch self {
         case .modelUsage(let start, let end), .toolUsage(let start, let end):
             return [
-                URLQueryItem(name: "startTime", value: String(start)),
-                URLQueryItem(name: "endTime", value: String(end))
+                URLQueryItem(name: "startTime", value: start),
+                URLQueryItem(name: "endTime", value: end)
             ]
         case .quotaLimit:
             return nil

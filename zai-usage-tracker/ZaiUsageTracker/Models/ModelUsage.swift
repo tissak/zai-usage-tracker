@@ -3,6 +3,10 @@ import Foundation
 // MARK: - API Response Model
 
 struct ModelUsageResponse: Codable {
+    let data: ModelUsageData?
+}
+
+struct ModelUsageData: Codable {
     let totalUsage: ModelTotalUsage?
 }
 
@@ -26,8 +30,8 @@ struct ModelUsageInfo {
     }
     
     init(from response: ModelUsageResponse) {
-        self.totalTokens = response.totalUsage?.totalTokensUsage ?? 0
-        self.totalCalls = response.totalUsage?.totalModelCallCount ?? 0
+        self.totalTokens = response.data?.totalUsage?.totalTokensUsage ?? 0
+        self.totalCalls = response.data?.totalUsage?.totalModelCallCount ?? 0
     }
     
     private func formatNumber(_ value: Int) -> String {

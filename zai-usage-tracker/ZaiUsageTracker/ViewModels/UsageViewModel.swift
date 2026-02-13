@@ -1,5 +1,7 @@
 import Foundation
 import Combine
+import AppKit
+import UserNotifications
 
 @MainActor
 final class UsageViewModel: ObservableObject {
@@ -20,6 +22,8 @@ final class UsageViewModel: ObservableObject {
     private let keychain = KeychainService.shared
     private var refreshTimer: Timer?
     private var cancellables = Set<AnyCancellable>()
+    private var _cachedAPIKey: String?
+    private var _hasAPIKey: Bool { _cachedAPIKey != nil }
     
     // MARK: - Computed Properties
     
@@ -36,7 +40,7 @@ final class UsageViewModel: ObservableObject {
     }
     
     var hasAPIKey: Bool {
-        (try? keychain.getAPIKey()) != nil
+        _hasAPIKey
     }
     
     var tokenPercentage: Double {
@@ -72,11 +76,12 @@ final class UsageViewModel: ObservableObject {
     // MARK: - Initialization
     
     init() {
+        _cachedAPIKey = try? keychain.getAPIKey()
         loadSettings()
         setupBindings()
         
         // Initial refresh if API key exists
-        if hasAPIKey {
+        if _hasAPIKey {
             Task {
                 await refresh()
             }
@@ -87,7 +92,7 @@ final class UsageViewModel: ObservableObject {
     
     func refresh() async {
         isManuallyRefreshing = true
-        await usageService.refresh()
+        await usageService.refresh(apiKey: _cachedAPIKey)
         state = usageService.state
         isManuallyRefreshing = false
         
@@ -97,12 +102,14 @@ final class UsageViewModel: ObservableObject {
     
     func saveAPIKey(_ key: String) async throws {
         try keychain.saveAPIKey(key)
+        _cachedAPIKey = key
         await refresh()
         startAutoRefresh()
     }
     
     func deleteAPIKey() {
         try? keychain.deleteAPIKey()
+        _cachedAPIKey = nil
         state = .idle
         stopAutoRefresh()
     }

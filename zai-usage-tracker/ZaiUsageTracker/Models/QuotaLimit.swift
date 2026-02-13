@@ -4,6 +4,10 @@ import AppKit
 // MARK: - API Response Models
 
 struct QuotaLimitResponse: Codable {
+    let data: QuotaLimitData
+}
+
+struct QuotaLimitData: Codable {
     let limits: [QuotaLimitItem]
 }
 

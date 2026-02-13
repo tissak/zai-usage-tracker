@@ -3,6 +3,10 @@ import Foundation
 // MARK: - API Response Model
 
 struct ToolUsageResponse: Codable {
+    let data: ToolUsageData?
+}
+
+struct ToolUsageData: Codable {
     let totalUsage: ToolTotalUsage?
 }
 
@@ -24,9 +28,9 @@ struct ToolUsageInfo {
     }
     
     init(from response: ToolUsageResponse) {
-        self.networkSearches = response.totalUsage?.totalNetworkSearchCount ?? 0
-        self.webReads = response.totalUsage?.totalWebReadMcpCount ?? 0
-        self.zreadCalls = response.totalUsage?.totalZreadMcpCount ?? 0
+        self.networkSearches = response.data?.totalUsage?.totalNetworkSearchCount ?? 0
+        self.webReads = response.data?.totalUsage?.totalWebReadMcpCount ?? 0
+        self.zreadCalls = response.data?.totalUsage?.totalZreadMcpCount ?? 0
     }
     
     func formatted(_ value: Int) -> String {

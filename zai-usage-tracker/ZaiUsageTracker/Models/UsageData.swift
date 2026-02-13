@@ -47,8 +47,8 @@ struct UsageData {
     static var empty: UsageData {
         UsageData(
             quotaLimits: [],
-            modelUsage: ModelUsageInfo(from: ModelUsageResponse(totalUsage: nil)),
-            toolUsage: ToolUsageInfo(from: ToolUsageResponse(totalUsage: nil)),
+            modelUsage: ModelUsageInfo(from: ModelUsageResponse(data: nil)),
+            toolUsage: ToolUsageInfo(from: ToolUsageResponse(data: nil)),
             fetchedAt: Date(),
             periodStart: Date(),
             periodEnd: Date()

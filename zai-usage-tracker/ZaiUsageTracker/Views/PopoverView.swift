@@ -26,6 +26,7 @@ struct PopoverView: View {
         .frame(width: 300)
         .sheet(isPresented: $showingSettings) {
             SettingsView(viewModel: viewModel)
+                .interactiveDismissDisabled(true)
         }
     }
     

@@ -75,7 +75,7 @@ actor ZaiAPIClient {
         }
     }
     
-    private func getTimeWindow() -> (startTime: Int64, endTime: Int64) {
+    private func getTimeWindow() -> (startTime: String, endTime: String) {
         let calendar = Calendar.current
         let now = Date()
         
@@ -85,12 +85,19 @@ actor ZaiAPIClient {
         // Start: yesterday at current hour
         let start = calendar.date(byAdding: .day, value: -1, to: currentHour)!
         
-        // End: today at end of current hour
+        // End: today at end of current hour (with seconds)
         let end = calendar.date(byAdding: .hour, value: 1, to: currentHour)!
+        let endWithSeconds = calendar.date(byAdding: .second, value: 59, to: end) ?? end
         
         return (
-            startTime: Int64(start.timeIntervalSince1970 * 1000),
-            endTime: Int64(end.timeIntervalSince1970 * 1000)
+            startTime: formatDateTime(start),
+            endTime: formatDateTime(endWithSeconds)
         )
+    }
+    
+    private func formatDateTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return formatter.string(from: date)
     }
 }
