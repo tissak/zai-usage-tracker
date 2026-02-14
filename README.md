@@ -30,7 +30,7 @@ xcodebuild -project ZaiUsageTracker.xcodeproj -scheme ZaiUsageTracker -configura
 Or open in Xcode:
 
 ```bash
-open ZaiUsageTracker.xcodeproj
+open zai-usage-tracker/ZaiUsageTracker.xcodeproj
 ```
 
 ### Running the App
@@ -77,7 +77,7 @@ Configure:
 ## Project Structure
 
 ```
-ZaiUsageTracker/
+zai-usage-tracker/ZaiUsageTracker/
 ├── ZaiUsageTrackerApp.swift    # App entry point
 ├── Models/                      # Data models
 │   ├── UsageData.swift
