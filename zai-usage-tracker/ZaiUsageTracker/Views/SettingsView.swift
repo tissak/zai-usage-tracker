@@ -2,6 +2,8 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var viewModel: UsageViewModel
+    var onClose: (() -> Void)? = nil
+    
     @Environment(\.dismiss) private var dismiss
     
     @State private var apiKey: String = ""
@@ -16,7 +18,7 @@ struct SettingsView: View {
                 Text("Settings")
                     .font(.system(size: 16, weight: .semibold))
                 Spacer()
-                Button(action: { dismiss() }) {
+                Button(action: { close() }) {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.secondary)
                 }
@@ -64,7 +66,7 @@ struct SettingsView: View {
                 Spacer()
                 
                 Button("Cancel") {
-                    dismiss()
+                    close()
                 }
                 .keyboardShortcut(.cancelAction)
                 
@@ -78,7 +80,6 @@ struct SettingsView: View {
             }
             .padding()
         }
-        .frame(width: 400, height: 500)
         .onAppear {
             loadCurrentSettings()
         }
@@ -208,12 +209,20 @@ struct SettingsView: View {
             viewModel.updateRefreshInterval(viewModel.refreshInterval)
             viewModel.updateNotificationThreshold(viewModel.notificationThreshold)
             viewModel.toggleNotifications(viewModel.notificationsEnabled)
-            dismiss()
+            close()
         } catch {
             saveError = error.localizedDescription
         }
         
         isSaving = false
+    }
+    
+    private func close() {
+        if let onClose {
+            onClose()
+        } else {
+            dismiss()
+        }
     }
 }
 

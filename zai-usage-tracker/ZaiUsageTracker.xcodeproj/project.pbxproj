@@ -22,6 +22,7 @@
 		A100000D /* UsageRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000D; };
 		A100000E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000E; };
 		A100000F /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000F; };
+		A1000010 /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +41,8 @@
 		A200000D /* UsageRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageRowView.swift; sourceTree = "<group>"; };
 		A200000E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A200000F /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
-		A2000010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A2000010 /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
+		A2000011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3000001 /* ZaiUsageTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZaiUsageTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -72,7 +74,7 @@
 				A5000006 /* ViewModels */,
 				A5000007 /* Views */,
 				A5000008 /* Utilities */,
-				A2000010 /* Info.plist */,
+				A2000011 /* Info.plist */,
 			);
 			path = ZaiUsageTracker;
 			sourceTree = "<group>";
@@ -130,6 +132,7 @@
 			children = (
 				A200000E /* Constants.swift */,
 				A200000F /* DateHelper.swift */,
+				A2000010 /* SettingsWindowController.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 				A100000D /* UsageRowView.swift in Sources */,
 				A100000E /* Constants.swift in Sources */,
 				A100000F /* DateHelper.swift in Sources */,
+				A1000010 /* SettingsWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

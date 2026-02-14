@@ -2,7 +2,6 @@ import SwiftUI
 
 struct PopoverView: View {
     @ObservedObject var viewModel: UsageViewModel
-    @State private var showingSettings = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -24,10 +23,6 @@ struct PopoverView: View {
             footerView
         }
         .frame(width: 300)
-        .sheet(isPresented: $showingSettings) {
-            SettingsView(viewModel: viewModel)
-                .interactiveDismissDisabled(true)
-        }
     }
     
     // MARK: - Header
@@ -84,7 +79,7 @@ struct PopoverView: View {
                 .multilineTextAlignment(.center)
             
             Button("Open Settings") {
-                showingSettings = true
+                SettingsWindowController.shared.show(viewModel: viewModel)
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.small)
@@ -215,15 +210,22 @@ struct PopoverView: View {
     
     private var footerView: some View {
         HStack {
+            Button(action: { NSApplication.shared.terminate(nil) }) {
+                Image(systemName: "power")
+                    .font(.system(size: 12))
+            }
+            .buttonStyle(.plain)
+            .help("Quit")
+            
+            Spacer()
+            
             Text("Updated: \(viewModel.lastUpdatedText)")
                 .font(.system(size: 10))
                 .foregroundColor(.secondary)
             
             Spacer()
             
-            Button(action: {
-                showingSettings = true
-            }) {
+            Button(action: { SettingsWindowController.shared.show(viewModel: viewModel) }) {
                 Image(systemName: "gearshape")
                     .font(.system(size: 12))
             }
@@ -234,6 +236,7 @@ struct PopoverView: View {
         .padding(.vertical, 8)
         .background(Color.gray.opacity(0.03))
     }
+    
 }
 
 #Preview {
