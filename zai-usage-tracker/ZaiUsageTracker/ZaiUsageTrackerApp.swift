@@ -1,5 +1,6 @@
 import SwiftUI
 import UserNotifications
+import MenuBarExtraAccess
 
 @main
 struct ZaiUsageTrackerApp: App {
@@ -8,6 +9,10 @@ struct ZaiUsageTrackerApp: App {
     var body: some Scene {
         MenuBarExtra(viewModel.menuBarTitle, systemImage: menuBarIcon) {
             PopoverView(viewModel: viewModel)
+                .introspectMenuBarExtraWindow { window in
+                    // Prevent menu bar from auto-hiding when popover is open
+                    window.styleMask.insert(.nonactivatingPanel)
+                }
         }
         .menuBarExtraStyle(.window)
         

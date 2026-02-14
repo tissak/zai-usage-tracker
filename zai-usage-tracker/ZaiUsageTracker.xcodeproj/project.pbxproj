@@ -152,6 +152,9 @@
 			dependencies = (
 			);
 			name = ZaiUsageTracker;
+			packageProductDependencies = (
+				C2000001 /* MenuBarExtraAccess */,
+			);
 			productName = ZaiUsageTracker;
 			productReference = A3000001 /* ZaiUsageTracker.app */;
 			productType = "com.apple.product-type.application";
@@ -181,6 +184,9 @@
 			);
 			mainGroup = A5000001;
 			productRefGroup = A5000003 /* Products */;
+			packageReferences = (
+				C1000001 /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */,
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -418,6 +424,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C1000001 /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/orchetect/MenuBarExtraAccess";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C2000001 /* MenuBarExtraAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1000001 /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */;
+			productName = MenuBarExtraAccess;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A9000001 /* Project object */;
 }

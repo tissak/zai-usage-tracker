@@ -46,4 +46,4 @@ fastlane/test_output
 secrets/
 
 # Xcode SPM Package Resolution
-*.xcworkspace/xcshareddata/swiftpm/
+**/xcshareddata/swiftpm/
