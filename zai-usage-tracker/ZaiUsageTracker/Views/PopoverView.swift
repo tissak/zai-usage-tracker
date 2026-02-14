@@ -1,7 +1,10 @@
 import SwiftUI
+import Combine
 
 struct PopoverView: View {
     @ObservedObject var viewModel: UsageViewModel
+    @State private var updateTimer: Timer?
+    @State private var timeUpdateTrigger = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -11,18 +14,40 @@ struct PopoverView: View {
             Divider()
             
             // Content
-            ScrollView {
-                contentView
-                    .padding()
-            }
-            .frame(maxHeight: 400)
+            contentView
+                .padding()
             
             Divider()
             
             // Footer
             footerView
+                .id(timeUpdateTrigger) // Forces re-render when timer fires
         }
         .frame(width: 300)
+        .onAppear {
+            startUpdateTimer()
+            Task {
+                await viewModel.refresh()
+            }
+        }
+        .onDisappear {
+            stopUpdateTimer()
+        }
+    }
+    
+    // MARK: - Timer Management
+    
+    private func startUpdateTimer() {
+        updateTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+            Task { @MainActor in
+                timeUpdateTrigger.toggle()
+            }
+        }
+    }
+    
+    private func stopUpdateTimer() {
+        updateTimer?.invalidate()
+        updateTimer = nil
     }
     
     // MARK: - Header
