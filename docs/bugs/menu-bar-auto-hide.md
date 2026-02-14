@@ -114,6 +114,13 @@ var body: some Scene {
             .introspectMenuBarExtraWindow { window in
                 // Prevent menu bar from auto-hiding when popover is open
                 window.styleMask.insert(.nonactivatingPanel)
+                
+                // Allow window to appear on all spaces and over full-screen apps
+                window.collectionBehavior.insert(.canJoinAllSpaces)
+                window.collectionBehavior.insert(.fullScreenAuxiliary)
+                
+                // Ensure window floats above standard windows
+                window.level = .popUpMenu
             }
     }
     .menuBarExtraStyle(.window)
@@ -123,11 +130,14 @@ var body: some Scene {
 
 ### How It Works
 
-The `.nonactivatingPanel` style mask tells macOS that this window should receive key events without activating the application. This prevents the menu bar from auto-hiding because:
+The solution combines several window configuration flags to ensure the popover behaves as a proper system overlay:
 
-1. The app doesn't become "active" when the popover opens
-2. macOS treats the menu bar interaction as ongoing
-3. The menu bar remains visible until the user clicks away
+1. **`.nonactivatingPanel`**: Tells macOS that this window should receive key events without activating the application. This prevents the menu bar from auto-hiding because the app doesn't become "active" in a way that dismisses the menu bar.
+2. **`.canJoinAllSpaces`**: Ensures the popover is visible on all Mission Control spaces.
+3. **`.fullScreenAuxiliary`**: Allows the popover to appear over full-screen apps.
+4. **`.popUpMenu` window level**: Ensures the window floats above standard application windows.
+
+This combination ensures the menu bar remains visible and the popover is correctly layered above other content.
 
 ## Related Resources
 

@@ -12,6 +12,13 @@ struct ZaiUsageTrackerApp: App {
                 .introspectMenuBarExtraWindow { window in
                     // Prevent menu bar from auto-hiding when popover is open
                     window.styleMask.insert(.nonactivatingPanel)
+
+                    // Allow window to appear on all spaces and over full-screen apps
+                    window.collectionBehavior.insert(.canJoinAllSpaces)
+                    window.collectionBehavior.insert(.fullScreenAuxiliary)
+
+                    // Ensure window floats above standard windows
+                    window.level = .popUpMenu
                 }
         }
         .menuBarExtraStyle(.window)

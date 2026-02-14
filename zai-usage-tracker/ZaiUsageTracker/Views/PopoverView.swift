@@ -25,12 +25,14 @@ struct PopoverView: View {
         }
         .frame(width: 300)
         .onAppear {
+            viewModel.isPopoverOpen = true
             startUpdateTimer()
             Task {
                 await viewModel.refresh()
             }
         }
         .onDisappear {
+            viewModel.isPopoverOpen = false
             stopUpdateTimer()
         }
     }

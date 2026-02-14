@@ -15,6 +15,7 @@ final class UsageViewModel: ObservableObject {
     @Published var launchAtLogin: Bool = false
     @Published var showSettings: Bool = false
     @Published var isManuallyRefreshing: Bool = false
+    @Published var isPopoverOpen: Bool = false
     
     // MARK: - Private Properties
     
@@ -89,6 +90,7 @@ final class UsageViewModel: ObservableObject {
             Task {
                 await refresh()
             }
+            startAutoRefresh()
         }
     }
     
@@ -213,6 +215,9 @@ final class UsageViewModel: ObservableObject {
     
     private func checkAndSendNotification() {
         guard notificationsEnabled, let data = usageData else { return }
+        
+        // Don't send notification if the popover is open (user is looking at it)
+        guard !isPopoverOpen else { return }
         
         if data.tokenPercentage >= notificationThreshold {
             sendUsageNotification(percentage: data.tokenPercentage)
