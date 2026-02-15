@@ -34,19 +34,24 @@ struct SettingsView: View {
                 VStack(alignment: .leading, spacing: 24) {
                     // API Key Section
                     apiKeySection
-                    
+
                     Divider()
-                    
+
+                    // Storage Section
+                    storageSection
+
+                    Divider()
+
                     // Platform Section
                     platformSection
-                    
+
                     Divider()
-                    
+
                     // Refresh Section
                     refreshSection
-                    
+
                     Divider()
-                    
+
                     // Notifications Section
                     notificationsSection
                 }
@@ -165,21 +170,21 @@ struct SettingsView: View {
     }
     
     // MARK: - Notifications Section
-    
+
     private var notificationsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Notifications")
                 .font(.system(size: 13, weight: .semibold))
-            
+
             Toggle("Enable notifications", isOn: $viewModel.notificationsEnabled)
                 .font(.system(size: 12))
-            
+
             if viewModel.notificationsEnabled {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Alert when usage exceeds:")
                         .font(.system(size: 11))
                         .foregroundColor(.secondary)
-                    
+
                     Picker("Threshold", selection: $viewModel.notificationThreshold) {
                         ForEach(Constants.NotificationThreshold.all, id: \.self) { threshold in
                             Text(Constants.NotificationThreshold.label(threshold)).tag(threshold)
@@ -190,7 +195,97 @@ struct SettingsView: View {
             }
         }
     }
-    
+
+    // MARK: - Storage Section
+
+    @State private var selectedBackend: StorageBackend = .keychain
+    @State private var showingMigrationDialog: Bool = false
+    @State private var migrationDestination: StorageBackend?
+    @State private var migrationError: String?
+
+    private var storageSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Storage Backend")
+                .font(.system(size: 13, weight: .semibold))
+
+            Picker("Storage Backend", selection: $selectedBackend) {
+                ForEach(StorageBackend.allCases, id: \.self) { backend in
+                    Text(backend.localizedName).tag(backend)
+                }
+            }
+            .pickerStyle(.segmented)
+            .help("Choose where to store your API key")
+            .onChange(of: selectedBackend) { oldValue, newValue in
+                // Check if backend changed
+                if oldValue != newValue {
+                    migrationDestination = newValue
+                    showingMigrationDialog = true
+                }
+            }
+
+            Text("Config file location: ~/.config/zai-usage-tracker/config.json")
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
+        }
+        .onAppear {
+            selectedBackend = viewModel.currentBackend
+        }
+        .alert("Move API Key?", isPresented: $showingMigrationDialog) {
+            Button("Cancel", role: .cancel) {
+                migrationDestination = nil
+                selectedBackend = viewModel.currentBackend
+            }
+            Button("Move") {
+                Task {
+                    await performMigration()
+                }
+            }
+        } message: {
+            if let destination = migrationDestination {
+                Text("This will move your API key from \(oldBackendName) to \(destination.localizedName).")
+            } else {
+                Text("Please select a destination backend.")
+            }
+        }
+        .alert("Migration Error", isPresented: .constant(migrationError != nil)) {
+            Button("OK", role: .cancel) {
+                migrationError = nil
+                selectedBackend = viewModel.currentBackend
+            }
+        } message: {
+            if let error = migrationError {
+                Text(error)
+            }
+        }
+    }
+
+    private func performMigration() async {
+        migrationError = nil
+        let targetBackend = selectedBackend
+        
+        // Reset selection temporarily while migrating
+        selectedBackend = viewModel.currentBackend
+        migrationDestination = nil
+        
+        do {
+            try await viewModel.migrateStorage(to: targetBackend)
+            // Update selection to match new backend state
+            selectedBackend = viewModel.currentBackend
+        } catch {
+            migrationError = error.localizedDescription
+            // Selection is already reset to current backend
+        }
+    }
+
+    private var oldBackendName: String {
+        switch selectedBackend {
+        case .keychain:
+            return "Keychain"
+        case .configFile:
+            return "Config File"
+        }
+    }
+
     // MARK: - Actions
     
     private func loadCurrentSettings() {

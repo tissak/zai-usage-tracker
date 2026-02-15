@@ -16,11 +16,12 @@ final class UsageViewModel: ObservableObject {
     @Published var showSettings: Bool = false
     @Published var isManuallyRefreshing: Bool = false
     @Published var isPopoverOpen: Bool = false
+    @Published var currentBackend: StorageBackend = .keychain
     
     // MARK: - Private Properties
-    
+
     private let usageService = UsageService()
-    private let keychain = KeychainService.shared
+    private let storageService = StorageService()
     private var refreshTimer: Timer?
     private var cancellables = Set<AnyCancellable>()
     private var _cachedAPIKey: String?
@@ -81,10 +82,11 @@ final class UsageViewModel: ObservableObject {
     // MARK: - Initialization
     
     init() {
-        _cachedAPIKey = try? keychain.getAPIKey()
+        _cachedAPIKey = try? storageService.getAPIKey()
+        currentBackend = storageService.currentBackend
         loadSettings()
         setupBindings()
-        
+
         // Initial refresh if API key exists
         if _hasAPIKey {
             Task {
@@ -107,19 +109,30 @@ final class UsageViewModel: ObservableObject {
     }
     
     func saveAPIKey(_ key: String) async throws {
-        try keychain.saveAPIKey(key)
+        try storageService.saveAPIKey(key)
         _cachedAPIKey = key
         await refresh()
         startAutoRefresh()
     }
     
     func deleteAPIKey() {
-        try? keychain.deleteAPIKey()
+        try? storageService.deleteAPIKey()
         _cachedAPIKey = nil
         state = .idle
         stopAutoRefresh()
     }
-    
+
+    func migrateStorage(to backend: StorageBackend) async throws {
+        try storageService.migrate(to: backend)
+        currentBackend = storageService.currentBackend
+
+        // Refresh data if API key exists after migration
+        if let apiKey = storageService.getAPIKey(), !apiKey.isEmpty {
+            _cachedAPIKey = apiKey
+            await refresh()
+        }
+    }
+
     func updatePlatform(_ newPlatform: Platform) {
         platform = newPlatform
         usageService.platform = newPlatform

@@ -7,25 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A1000001 /* ZaiUsageTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001; };
-		A1000002 /* QuotaLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002; };
-		A1000003 /* ModelUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003; };
-		A1000004 /* ToolUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000004; };
-		A1000005 /* UsageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000005; };
-		A1000006 /* ZaiAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006; };
-		A1000007 /* ZaiAPIClient+Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007; };
-		A1000008 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000008; };
-		A1000009 /* UsageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000009; };
-		A100000A /* UsageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000A; };
-		A100000B /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000B; };
-		A100000C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000C; };
-		A100000D /* UsageRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000D; };
-		A100000E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000E; };
-		A100000F /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000F; };
-		A1000010 /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010; };
+		4776BF6F2F414DE100D58C1B /* MenuBarExtraAccess in Frameworks */ = {isa = PBXBuildFile; productRef = C2000001 /* MenuBarExtraAccess */; };
+		4776BF732F41893E00D58C1B /* APIKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4776BF702F41893E00D58C1B /* APIKeyStorage.swift */; };
+		4776BF742F41893E00D58C1B /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4776BF722F41893E00D58C1B /* StorageService.swift */; };
+		4776BF752F41893E00D58C1B /* ConfigFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4776BF712F41893E00D58C1B /* ConfigFileService.swift */; };
+		A1000001 /* ZaiUsageTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001 /* ZaiUsageTrackerApp.swift */; };
+		A1000002 /* QuotaLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* QuotaLimit.swift */; };
+		A1000003 /* ModelUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003 /* ModelUsage.swift */; };
+		A1000004 /* ToolUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000004 /* ToolUsage.swift */; };
+		A1000005 /* UsageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000005 /* UsageData.swift */; };
+		A1000006 /* ZaiAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* ZaiAPIClient.swift */; };
+		A1000007 /* ZaiAPIClient+Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007 /* ZaiAPIClient+Fetch.swift */; };
+		A1000008 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000008 /* KeychainService.swift */; };
+		A1000009 /* UsageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000009 /* UsageService.swift */; };
+		A100000A /* UsageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000A /* UsageViewModel.swift */; };
+		A100000B /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000B /* PopoverView.swift */; };
+		A100000C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000C /* SettingsView.swift */; };
+		A100000D /* UsageRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000D /* UsageRowView.swift */; };
+		A100000E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000E /* Constants.swift */; };
+		A100000F /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200000F /* DateHelper.swift */; };
+		A1000010 /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010 /* SettingsWindowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4776BF702F41893E00D58C1B /* APIKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyStorage.swift; sourceTree = "<group>"; };
+		4776BF712F41893E00D58C1B /* ConfigFileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigFileService.swift; sourceTree = "<group>"; };
+		4776BF722F41893E00D58C1B /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		A2000001 /* ZaiUsageTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZaiUsageTrackerApp.swift; sourceTree = "<group>"; };
 		A2000002 /* QuotaLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaLimit.swift; sourceTree = "<group>"; };
 		A2000003 /* ModelUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelUsage.swift; sourceTree = "<group>"; };
@@ -51,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4776BF6F2F414DE100D58C1B /* MenuBarExtraAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +109,9 @@
 		A5000005 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				4776BF702F41893E00D58C1B /* APIKeyStorage.swift */,
+				4776BF712F41893E00D58C1B /* ConfigFileService.swift */,
+				4776BF722F41893E00D58C1B /* StorageService.swift */,
 				A2000006 /* ZaiAPIClient.swift */,
 				A2000007 /* ZaiAPIClient+Fetch.swift */,
 				A2000008 /* KeychainService.swift */,
@@ -183,10 +194,10 @@
 				Base,
 			);
 			mainGroup = A5000001;
-			productRefGroup = A5000003 /* Products */;
 			packageReferences = (
 				C1000001 /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */,
 			);
+			productRefGroup = A5000003 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -214,6 +225,9 @@
 				A100000C /* SettingsView.swift in Sources */,
 				A100000D /* UsageRowView.swift in Sources */,
 				A100000E /* Constants.swift in Sources */,
+				4776BF732F41893E00D58C1B /* APIKeyStorage.swift in Sources */,
+				4776BF742F41893E00D58C1B /* StorageService.swift in Sources */,
+				4776BF752F41893E00D58C1B /* ConfigFileService.swift in Sources */,
 				A100000F /* DateHelper.swift in Sources */,
 				A1000010 /* SettingsWindowController.swift in Sources */,
 			);

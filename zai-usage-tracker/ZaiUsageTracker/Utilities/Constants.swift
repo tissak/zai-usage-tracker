@@ -51,5 +51,15 @@ struct Constants {
         static let notificationThreshold = "notificationThreshold"
         static let notificationsEnabled = "notificationsEnabled"
         static let launchAtLogin = "launchAtLogin"
+        static let storageBackend = "storageBackend"
+    }
+
+    // File Paths
+    struct FilePaths {
+        static let configDirectory = FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent(".config")
+            .appendingPathComponent("zai-usage-tracker")
+
+        static let configFile = configDirectory.appendingPathComponent("config.json")
     }
 }
