@@ -26,6 +26,7 @@ final class UsageViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private var _cachedAPIKey: String?
     private var _hasAPIKey: Bool { _cachedAPIKey != nil }
+    private var hasNotifiedForCurrentThreshold: Bool = false
     
     // MARK: - Computed Properties
     
@@ -152,6 +153,8 @@ final class UsageViewModel: ObservableObject {
     func updateNotificationThreshold(_ threshold: Double) {
         notificationThreshold = threshold
         UserDefaults.standard.set(threshold, forKey: Constants.UserDefaultsKeys.notificationThreshold)
+        // Reset notification flag so new threshold takes effect immediately
+        hasNotifiedForCurrentThreshold = false
     }
     
     func toggleNotifications(_ enabled: Bool) {
@@ -233,7 +236,14 @@ final class UsageViewModel: ObservableObject {
         guard !isPopoverOpen else { return }
         
         if data.tokenPercentage >= notificationThreshold {
-            sendUsageNotification(percentage: data.tokenPercentage)
+            // Only notify if we haven't already for this threshold crossing
+            if !hasNotifiedForCurrentThreshold {
+                sendUsageNotification(percentage: data.tokenPercentage)
+                hasNotifiedForCurrentThreshold = true
+            }
+        } else {
+            // Usage dropped below threshold - reset flag so we can notify again if it rises
+            hasNotifiedForCurrentThreshold = false
         }
     }
     

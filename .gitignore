@@ -47,3 +47,10 @@ secrets/
 
 # Xcode SPM Package Resolution
 **/xcshareddata/swiftpm/
+
+# Scripts
+update_project.py
+update_project.sh
+update_project_plistlib.py
+update_project_v2.py
+cleanup_project.py

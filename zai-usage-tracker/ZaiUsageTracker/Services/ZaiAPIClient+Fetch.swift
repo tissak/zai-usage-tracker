@@ -82,12 +82,12 @@ actor ZaiAPIClient {
         // Get start of current hour
         let currentHour = calendar.date(from: calendar.dateComponents([.year, .month, .day, .hour], from: now))!
         
-        // Start: yesterday at current hour
-        let start = calendar.date(byAdding: .day, value: -1, to: currentHour)!
-        
-        // End: today at end of current hour (with seconds)
+        // End: end of current hour (e.g., 15:00)
         let end = calendar.date(byAdding: .hour, value: 1, to: currentHour)!
         let endWithSeconds = calendar.date(byAdding: .second, value: 59, to: end) ?? end
+        
+        // Start: 24 hours before end
+        let start = calendar.date(byAdding: .day, value: -1, to: end)!
         
         return (
             startTime: formatDateTime(start),

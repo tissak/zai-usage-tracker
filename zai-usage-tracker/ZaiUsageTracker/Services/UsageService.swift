@@ -30,8 +30,7 @@ final class UsageService: ObservableObject {
             let modelUsage = ModelUsageInfo(from: modelResponse)
             let toolUsage = ToolUsageInfo(from: toolResponse)
             
-            let (_, endTime) = getTimeWindowDates()
-            let startTime = calendar.date(byAdding: .day, value: -1, to: endTime)!
+            let (startTime, endTime) = getTimeWindowDates()
             
             let usageData = UsageData(
                 quotaLimits: quotaInfos,
@@ -61,8 +60,12 @@ final class UsageService: ObservableObject {
     private func getTimeWindowDates() -> (start: Date, end: Date) {
         let now = Date()
         let currentHour = calendar.date(from: calendar.dateComponents([.year, .month, .day, .hour], from: now))!
+        
+        // End: end of current hour (e.g., 15:00)
         let end = calendar.date(byAdding: .hour, value: 1, to: currentHour)!
-        let start = calendar.date(byAdding: .day, value: -1, to: currentHour)!
+        
+        // Start: 24 hours before end
+        let start = calendar.date(byAdding: .day, value: -1, to: end)!
         return (start, end)
     }
 }
