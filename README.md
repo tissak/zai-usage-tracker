@@ -2,6 +2,12 @@
 
 A macOS menu bar application for tracking Z.ai API usage, including quota limits, model usage, and tool usage.
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/images/screenshot.png" alt="Z.ai Usage Tracker Screenshot" width="400">
+</p>
+
 ## Features
 
 - **Menu Bar Integration** - View usage at a glance from the macOS menu bar
@@ -10,7 +16,7 @@ A macOS menu bar application for tracking Z.ai API usage, including quota limits
 - **Tool Usage** - Monitor network searches, web reads, and ZRead calls
 - **Auto Refresh** - Configurable automatic refresh interval (1-30 minutes)
 - **Notifications** - Alert when usage exceeds a threshold
-- **Secure Storage** - API key stored securely in macOS Keychain
+- **Secure Storage** - API key stored securely in macOS Keychain (or alternate less secure but convenient ~/.config)
 
 ## Requirements
 
@@ -105,6 +111,18 @@ zai-usage-tracker/ZaiUsageTracker/
 - **SwiftUI** - UI framework
 - **Swift Concurrency** - async/await for async operations
 - **Actor** - Thread-safe API client singleton
+
+## Development
+
+### Generating Screenshots
+
+To update the screenshots in the README, run the automated screenshot generation script:
+
+```bash
+./scripts/generate_screenshots.sh
+```
+
+This script runs the UI tests to capture the app state and updates `docs/images/screenshot.png`.
 
 ## License
 
