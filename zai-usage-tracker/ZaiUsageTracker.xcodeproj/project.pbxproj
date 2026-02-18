@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -29,10 +29,21 @@
 		A1000010 /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010 /* SettingsWindowController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4790C69D2F45945C0010F02E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A6000001;
+			remoteInfo = ZaiUsageTracker;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		4776BF702F41893E00D58C1B /* APIKeyStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyStorage.swift; sourceTree = "<group>"; };
 		4776BF712F41893E00D58C1B /* ConfigFileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigFileService.swift; sourceTree = "<group>"; };
 		4776BF722F41893E00D58C1B /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		4790C6972F45945C0010F02E /* ZaiUsageTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZaiUsageTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2000001 /* ZaiUsageTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZaiUsageTrackerApp.swift; sourceTree = "<group>"; };
 		A2000002 /* QuotaLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaLimit.swift; sourceTree = "<group>"; };
 		A2000003 /* ModelUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelUsage.swift; sourceTree = "<group>"; };
@@ -53,7 +64,18 @@
 		A3000001 /* ZaiUsageTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZaiUsageTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		4790C6982F45945C0010F02E /* ZaiUsageTrackerUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ZaiUsageTrackerUITests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		4790C6942F45945C0010F02E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A4000001 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -69,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				A5000002 /* ZaiUsageTracker */,
+				4790C6982F45945C0010F02E /* ZaiUsageTrackerUITests */,
 				A5000003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -91,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				A3000001 /* ZaiUsageTracker.app */,
+				4790C6972F45945C0010F02E /* ZaiUsageTrackerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -151,6 +175,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4790C6962F45945C0010F02E /* ZaiUsageTrackerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4790C6A12F45945C0010F02E /* Build configuration list for PBXNativeTarget "ZaiUsageTrackerUITests" */;
+			buildPhases = (
+				4790C6932F45945C0010F02E /* Sources */,
+				4790C6942F45945C0010F02E /* Frameworks */,
+				4790C6952F45945C0010F02E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4790C69E2F45945C0010F02E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				4790C6982F45945C0010F02E /* ZaiUsageTrackerUITests */,
+			);
+			name = ZaiUsageTrackerUITests;
+			packageProductDependencies = (
+			);
+			productName = ZaiUsageTrackerUITests;
+			productReference = 4790C6972F45945C0010F02E /* ZaiUsageTrackerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		A6000001 /* ZaiUsageTracker */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A8000001 /* Build configuration list for PBXNativeTarget "ZaiUsageTracker" */;
@@ -177,9 +224,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					4790C6962F45945C0010F02E = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = A6000001;
+					};
 					A6000001 = {
 						CreatedOnToolsVersion = 15.0;
 					};
@@ -202,11 +253,29 @@
 			projectRoot = "";
 			targets = (
 				A6000001 /* ZaiUsageTracker */,
+				4790C6962F45945C0010F02E /* ZaiUsageTrackerUITests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		4790C6952F45945C0010F02E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		4790C6932F45945C0010F02E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A7000001 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -235,7 +304,55 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4790C69E2F45945C0010F02E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A6000001 /* ZaiUsageTracker */;
+			targetProxy = 4790C69D2F45945C0010F02E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		4790C69F2F45945C0010F02E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AV3RNGUVHQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.issakov.ZaiUsageTrackerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = ZaiUsageTracker;
+			};
+			name = Debug;
+		};
+		4790C6A02F45945C0010F02E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AV3RNGUVHQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.issakov.ZaiUsageTrackerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = ZaiUsageTracker;
+			};
+			name = Release;
+		};
 		B1000001 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -360,11 +477,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = AV3RNGUVHQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -380,6 +499,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zaiusagetracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -390,14 +510,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTOMATION_APPLE_EVENTS = NO;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = AV3RNGUVHQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZaiUsageTracker/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -411,6 +540,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zaiusagetracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -419,6 +555,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4790C6A12F45945C0010F02E /* Build configuration list for PBXNativeTarget "ZaiUsageTrackerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4790C69F2F45945C0010F02E /* Debug */,
+				4790C6A02F45945C0010F02E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A8000001 /* Build configuration list for PBXNativeTarget "ZaiUsageTracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

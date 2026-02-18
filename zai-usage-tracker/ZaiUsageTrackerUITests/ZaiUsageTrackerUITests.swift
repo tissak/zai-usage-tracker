@@ -10,32 +10,56 @@ import XCTest
 final class ZaiUsageTrackerUITests: XCTestCase {
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
     @MainActor
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testTakeScreenshot() throws {
         let app = XCUIApplication()
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    @MainActor
-    func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
+        
+        // Ensure app is active
+        app.activate()
+        
+        // Wait for app launch
+        sleep(2)
+        
+        // Find the status item
+        let statusItem = app.statusItems.firstMatch
+        XCTAssertTrue(statusItem.waitForExistence(timeout: 10), "Menu bar item not found")
+        
+        // Click using coordinate to avoid "not hittable" issues
+        statusItem.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).click()
+        
+        // Wait for the popover window
+        // Note: MenuBarExtra windows might appear as standard windows, sheets, or dialogs
+        // Strategy: Find the dialog/window that contains the "Z.ai Usage Tracker" text
+        // Based on debug output, it appears as a "Dialog"
+        let popover = app.dialogs.containing(.staticText, identifier: "Z.ai Usage Tracker").firstMatch
+        
+        if popover.waitForExistence(timeout: 5) {
+            let screenshot = popover.screenshot()
+            let attachment = XCTAttachment(screenshot: screenshot)
+            attachment.name = "PopoverScreenshot"
+            attachment.lifetime = .keepAlways
+            add(attachment)
+        } else {
+            // Fallback: Try windows if dialogs fail
+            let window = app.windows.containing(.staticText, identifier: "Z.ai Usage Tracker").firstMatch
+            if window.waitForExistence(timeout: 2) {
+                 let screenshot = window.screenshot()
+                 let attachment = XCTAttachment(screenshot: screenshot)
+                 attachment.name = "PopoverScreenshot"
+                 attachment.lifetime = .keepAlways
+                 add(attachment)
+            } else {
+                // Fallback: Take screenshot of the app itself
+                let appScreenshot = app.screenshot()
+                let attachment = XCTAttachment(screenshot: appScreenshot)
+                attachment.name = "PopoverScreenshot"
+                attachment.lifetime = .keepAlways
+                add(attachment)
+            }
         }
     }
 }
