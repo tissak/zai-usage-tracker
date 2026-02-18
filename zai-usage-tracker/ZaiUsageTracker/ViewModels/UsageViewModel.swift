@@ -83,7 +83,7 @@ final class UsageViewModel: ObservableObject {
     // MARK: - Initialization
     
     init() {
-        _cachedAPIKey = try? storageService.getAPIKey()
+        _cachedAPIKey = storageService.getAPIKey()
         currentBackend = storageService.currentBackend
         loadSettings()
         setupBindings()
@@ -262,3 +262,4 @@ final class UsageViewModel: ObservableObject {
         UNUserNotificationCenter.current().add(request)
     }
 }
+
