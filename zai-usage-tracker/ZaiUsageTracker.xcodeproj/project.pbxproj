@@ -44,6 +44,7 @@
 		4776BF712F41893E00D58C1B /* ConfigFileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigFileService.swift; sourceTree = "<group>"; };
 		4776BF722F41893E00D58C1B /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		4790C6972F45945C0010F02E /* ZaiUsageTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZaiUsageTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4790C6A22F4681910010F02E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A2000001 /* ZaiUsageTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZaiUsageTrackerApp.swift; sourceTree = "<group>"; };
 		A2000002 /* QuotaLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaLimit.swift; sourceTree = "<group>"; };
 		A2000003 /* ModelUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelUsage.swift; sourceTree = "<group>"; };
@@ -87,6 +88,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4790C6A32F4681910010F02E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4790C6A22F4681910010F02E /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		A5000001 = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +108,7 @@
 		A5000002 /* ZaiUsageTracker */ = {
 			isa = PBXGroup;
 			children = (
+				4790C6A32F4681910010F02E /* Resources */,
 				A2000001 /* ZaiUsageTrackerApp.swift */,
 				A5000004 /* Models */,
 				A5000005 /* Services */,
