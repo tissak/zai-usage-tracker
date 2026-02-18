@@ -45,6 +45,9 @@ fastlane/test_output
 .env.*
 secrets/
 
+# Release configuration (contains Team ID)
+exportOptions.plist
+
 # Xcode SPM Package Resolution
 **/xcshareddata/swiftpm/
 
