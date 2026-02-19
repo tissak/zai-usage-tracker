@@ -52,6 +52,11 @@ struct SettingsView: View {
 
                     Divider()
 
+                    // Weekly Limit Section
+                    weeklyLimitSection
+
+                    Divider()
+
                     // Notifications Section
                     notificationsSection
                 }
@@ -169,6 +174,29 @@ struct SettingsView: View {
         }
     }
     
+    // MARK: - Weekly Limit Section
+
+    private var weeklyLimitSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Weekly Token Limit")
+                .font(.system(size: 13, weight: .semibold))
+
+            Text("Used to calculate the weekly token usage bar in the popover.")
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
+
+            Picker("Weekly Limit", selection: $viewModel.weeklyTokenLimit) {
+                ForEach(Constants.WeeklyTokenLimit.all, id: \.self) { limit in
+                    Text(Constants.WeeklyTokenLimit.label(limit)).tag(limit)
+                }
+            }
+            .pickerStyle(.menu)
+            .onChange(of: viewModel.weeklyTokenLimit) { _, newValue in
+                viewModel.updateWeeklyTokenLimit(newValue)
+            }
+        }
+    }
+
     // MARK: - Notifications Section
 
     private var notificationsSection: some View {

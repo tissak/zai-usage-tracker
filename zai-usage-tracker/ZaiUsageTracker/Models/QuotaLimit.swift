@@ -82,7 +82,16 @@ struct QuotaInfo: Identifiable {
 
 enum UsageStatus {
     case normal, warning, high, critical
-    
+
+    var severity: Int {
+        switch self {
+        case .normal: return 0
+        case .warning: return 1
+        case .high: return 2
+        case .critical: return 3
+        }
+    }
+
     var color: NSColor {
         switch self {
         case .normal: return .systemGreen

@@ -6,6 +6,9 @@ struct UsageData {
     let quotaLimits: [QuotaInfo]
     let modelUsage: ModelUsageInfo
     let toolUsage: ToolUsageInfo
+    let weeklyModelUsage: ModelUsageInfo
+    let weeklyToolUsage: ToolUsageInfo
+    let weeklyResetTime: Date?
     let fetchedAt: Date
     let periodStart: Date
     let periodEnd: Date
@@ -49,6 +52,9 @@ struct UsageData {
             quotaLimits: [],
             modelUsage: ModelUsageInfo(from: ModelUsageResponse(data: nil)),
             toolUsage: ToolUsageInfo(from: ToolUsageResponse(data: nil)),
+            weeklyModelUsage: ModelUsageInfo(from: ModelUsageResponse(data: nil)),
+            weeklyToolUsage: ToolUsageInfo(from: ToolUsageResponse(data: nil)),
+            weeklyResetTime: nil,
             fetchedAt: Date(),
             periodStart: Date(),
             periodEnd: Date()

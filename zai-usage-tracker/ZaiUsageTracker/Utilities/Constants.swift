@@ -43,7 +43,22 @@ struct Constants {
     
     // Token Limits
     static let defaultTokenLimit = 40_000_000
-    
+
+    struct WeeklyTokenLimit {
+        static let `default` = 40_000_000
+        static let all = [5_000_000, 10_000_000, 20_000_000, 40_000_000, 80_000_000, 100_000_000, 200_000_000]
+
+        static func label(_ value: Int) -> String {
+            if value >= 1_000_000 {
+                return "\(value / 1_000_000)M tokens"
+            } else if value >= 1_000 {
+                return "\(value / 1_000)K tokens"
+            } else {
+                return "\(value) tokens"
+            }
+        }
+    }
+
     // UserDefaults Keys
     struct UserDefaultsKeys {
         static let platform = "selectedPlatform"
@@ -52,6 +67,7 @@ struct Constants {
         static let notificationsEnabled = "notificationsEnabled"
         static let launchAtLogin = "launchAtLogin"
         static let storageBackend = "storageBackend"
+        static let weeklyTokenLimit = "weeklyTokenLimit"
     }
 
     // File Paths

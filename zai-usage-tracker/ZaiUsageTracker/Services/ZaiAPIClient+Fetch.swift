@@ -30,12 +30,27 @@ actor ZaiAPIClient {
         return try await fetch(endpoint: .toolUsage(startTime: startTime, endTime: endTime), platform: platform, apiKey: apiKey)
     }
     
-    func fetchAll(platform: Platform, apiKey: String) async throws -> (QuotaLimitResponse, ModelUsageResponse, ToolUsageResponse) {
-        async let quota = fetchQuotaLimit(platform: platform, apiKey: apiKey)
-        async let model = fetchModelUsage(platform: platform, apiKey: apiKey)
-        async let tool = fetchToolUsage(platform: platform, apiKey: apiKey)
-        
-        return try await (quota, model, tool)
+    func fetchWeeklyModelUsage(platform: Platform, apiKey: String) async throws -> ModelUsageResponse {
+        let (startTime, endTime) = getWeeklyTimeWindow()
+        return try await fetch(endpoint: .modelUsage(startTime: startTime, endTime: endTime), platform: platform, apiKey: apiKey)
+    }
+
+    func fetchWeeklyToolUsage(platform: Platform, apiKey: String) async throws -> ToolUsageResponse {
+        let (startTime, endTime) = getWeeklyTimeWindow()
+        return try await fetch(endpoint: .toolUsage(startTime: startTime, endTime: endTime), platform: platform, apiKey: apiKey)
+    }
+
+    func fetchAll(platform: Platform, apiKey: String) async throws -> (
+        QuotaLimitResponse, ModelUsageResponse, ToolUsageResponse,
+        ModelUsageResponse, ToolUsageResponse
+    ) {
+        async let quota       = fetchQuotaLimit(platform: platform, apiKey: apiKey)
+        async let model       = fetchModelUsage(platform: platform, apiKey: apiKey)
+        async let tool        = fetchToolUsage(platform: platform, apiKey: apiKey)
+        async let weeklyModel = fetchWeeklyModelUsage(platform: platform, apiKey: apiKey)
+        async let weeklyTool  = fetchWeeklyToolUsage(platform: platform, apiKey: apiKey)
+
+        return try await (quota, model, tool, weeklyModel, weeklyTool)
     }
     
     private func fetch<T: Decodable>(endpoint: APIEndpoint, platform: Platform, apiKey: String) async throws -> T {
@@ -75,6 +90,16 @@ actor ZaiAPIClient {
         }
     }
     
+    private func getWeeklyTimeWindow() -> (startTime: String, endTime: String) {
+        let calendar = Calendar.current
+        let now = Date()
+        let currentHour = calendar.date(from: calendar.dateComponents([.year, .month, .day, .hour], from: now))!
+        let end = calendar.date(byAdding: .hour, value: 1, to: currentHour)!
+        let endWithSeconds = calendar.date(byAdding: .second, value: 59, to: end) ?? end
+        let start = calendar.date(byAdding: .day, value: -7, to: end)!
+        return (startTime: formatDateTime(start), endTime: formatDateTime(endWithSeconds))
+    }
+
     private func getTimeWindow() -> (startTime: String, endTime: String) {
         let calendar = Calendar.current
         let now = Date()

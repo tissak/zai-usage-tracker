@@ -21,21 +21,42 @@ final class UsageService: ObservableObject {
         lastError = nil
         
         do {
-            let (quotaResponse, modelResponse, toolResponse) = try await apiClient.fetchAll(
+            let (quotaResponse, modelResponse, toolResponse, weeklyModelResponse, weeklyToolResponse) = try await apiClient.fetchAll(
                 platform: platform,
                 apiKey: key
             )
-            
+
+            // Log all quota types so we can discover any weekly quota item the API returns
+            for item in quotaResponse.data.limits {
+                let resetDate = item.nextResetTime.map { Date(timeIntervalSince1970: TimeInterval($0) / 1000) }
+                print("[QuotaDebug] type=\(item.type) pct=\(item.percentage) reset=\(resetDate.map { "\($0)" } ?? "nil")")
+            }
+
             let quotaInfos = quotaResponse.data.limits.map { QuotaInfo(from: $0) }
+
+            // Two TOKENS_LIMIT items exist: the 5h quota (no reset time) and the weekly
+            // quota (furthest reset time). Pick the one with the largest nextResetTime.
+            let weeklyTokenItem = quotaResponse.data.limits
+                .filter { $0.type == "TOKENS_LIMIT" }
+                .max(by: { ($0.nextResetTime ?? 0) < ($1.nextResetTime ?? 0) })
+            let weeklyResetTime: Date? = weeklyTokenItem.flatMap { item in
+                item.nextResetTime.map { Date(timeIntervalSince1970: TimeInterval($0) / 1000) }
+            }
+
             let modelUsage = ModelUsageInfo(from: modelResponse)
             let toolUsage = ToolUsageInfo(from: toolResponse)
-            
+            let weeklyModelUsage = ModelUsageInfo(from: weeklyModelResponse)
+            let weeklyToolUsage = ToolUsageInfo(from: weeklyToolResponse)
+
             let (startTime, endTime) = getTimeWindowDates()
-            
+
             let usageData = UsageData(
                 quotaLimits: quotaInfos,
                 modelUsage: modelUsage,
                 toolUsage: toolUsage,
+                weeklyModelUsage: weeklyModelUsage,
+                weeklyToolUsage: weeklyToolUsage,
+                weeklyResetTime: weeklyResetTime,
                 fetchedAt: Date(),
                 periodStart: startTime,
                 periodEnd: endTime

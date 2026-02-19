@@ -13,6 +13,7 @@ final class UsageViewModel: ObservableObject {
     @Published var notificationThreshold: Double = Constants.NotificationThreshold.default
     @Published var notificationsEnabled: Bool = true
     @Published var launchAtLogin: Bool = false
+    @Published var weeklyTokenLimit: Int = Constants.WeeklyTokenLimit.default
     @Published var showSettings: Bool = false
     @Published var isManuallyRefreshing: Bool = false
     @Published var isPopoverOpen: Bool = false
@@ -26,7 +27,8 @@ final class UsageViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private var _cachedAPIKey: String?
     private var _hasAPIKey: Bool { _cachedAPIKey != nil }
-    private var hasNotifiedForCurrentThreshold: Bool = false
+    private var hasNotifiedFor5hThreshold: Bool = false
+    private var hasNotifiedForWeeklyThreshold: Bool = false
     
     // MARK: - Computed Properties
     
@@ -53,11 +55,27 @@ final class UsageViewModel: ObservableObject {
     var tokenPercentage: Double {
         usageData?.tokenPercentage ?? 0
     }
-    
-    var tokenStatus: UsageStatus {
-        usageData?.tokenStatus ?? .normal
+
+    var weeklyTokenPercentage: Double {
+        guard weeklyTokenLimit > 0, let data = usageData else { return 0 }
+        return min(Double(data.weeklyModelUsage.totalTokens) / Double(weeklyTokenLimit) * 100, 100)
     }
-    
+
+    var weeklyTokenStatus: UsageStatus {
+        switch weeklyTokenPercentage {
+        case 0..<50: return .normal
+        case 50..<70: return .warning
+        case 70..<90: return .high
+        default: return .critical
+        }
+    }
+
+    /// Worst status across both 5h quota and weekly usage — drives menu bar icon and popover colour.
+    var tokenStatus: UsageStatus {
+        let fiveHour = usageData?.tokenStatus ?? .normal
+        return weeklyTokenStatus.severity > fiveHour.severity ? weeklyTokenStatus : fiveHour
+    }
+
     var statusColor: NSColor {
         tokenStatus.color
     }
@@ -153,13 +171,19 @@ final class UsageViewModel: ObservableObject {
     func updateNotificationThreshold(_ threshold: Double) {
         notificationThreshold = threshold
         UserDefaults.standard.set(threshold, forKey: Constants.UserDefaultsKeys.notificationThreshold)
-        // Reset notification flag so new threshold takes effect immediately
-        hasNotifiedForCurrentThreshold = false
+        // Reset notification flags so new threshold takes effect immediately
+        hasNotifiedFor5hThreshold = false
+        hasNotifiedForWeeklyThreshold = false
     }
     
     func toggleNotifications(_ enabled: Bool) {
         notificationsEnabled = enabled
         UserDefaults.standard.set(enabled, forKey: Constants.UserDefaultsKeys.notificationsEnabled)
+    }
+
+    func updateWeeklyTokenLimit(_ limit: Int) {
+        weeklyTokenLimit = limit
+        UserDefaults.standard.set(limit, forKey: Constants.UserDefaultsKeys.weeklyTokenLimit)
     }
     
     func toggleLaunchAtLogin(_ enabled: Bool) {
@@ -190,9 +214,12 @@ final class UsageViewModel: ObservableObject {
         
         notificationsEnabled = defaults.object(forKey: Constants.UserDefaultsKeys.notificationsEnabled) as? Bool
             ?? true
-        
+
         launchAtLogin = defaults.object(forKey: Constants.UserDefaultsKeys.launchAtLogin) as? Bool
             ?? false
+
+        weeklyTokenLimit = defaults.object(forKey: Constants.UserDefaultsKeys.weeklyTokenLimit) as? Int
+            ?? Constants.WeeklyTokenLimit.default
     }
     
     private func setupBindings() {
@@ -231,34 +258,42 @@ final class UsageViewModel: ObservableObject {
     
     private func checkAndSendNotification() {
         guard notificationsEnabled, let data = usageData else { return }
-        
-        // Don't send notification if the popover is open (user is looking at it)
         guard !isPopoverOpen else { return }
-        
-        if data.tokenPercentage >= notificationThreshold {
-            // Only notify if we haven't already for this threshold crossing
-            if !hasNotifiedForCurrentThreshold {
-                sendUsageNotification(percentage: data.tokenPercentage)
-                hasNotifiedForCurrentThreshold = true
+
+        // 5h quota check
+        let fiveHourPct = data.tokenPercentage
+        if fiveHourPct >= notificationThreshold {
+            if !hasNotifiedFor5hThreshold {
+                sendUsageNotification(percentage: fiveHourPct, period: "5h")
+                hasNotifiedFor5hThreshold = true
             }
         } else {
-            // Usage dropped below threshold - reset flag so we can notify again if it rises
-            hasNotifiedForCurrentThreshold = false
+            hasNotifiedFor5hThreshold = false
+        }
+
+        // Weekly quota check
+        if weeklyTokenPercentage >= notificationThreshold {
+            if !hasNotifiedForWeeklyThreshold {
+                sendUsageNotification(percentage: weeklyTokenPercentage, period: "weekly")
+                hasNotifiedForWeeklyThreshold = true
+            }
+        } else {
+            hasNotifiedForWeeklyThreshold = false
         }
     }
-    
-    private func sendUsageNotification(percentage: Double) {
+
+    private func sendUsageNotification(percentage: Double, period: String) {
         let content = UNMutableNotificationContent()
         content.title = "Z.ai Usage Alert"
-        content.body = "Token usage has reached \(Int(percentage))%"
+        content.body = "\(period.capitalized) token usage has reached \(Int(percentage))%"
         content.sound = .default
-        
+
         let request = UNNotificationRequest(
-            identifier: "usage-alert",
+            identifier: "usage-alert-\(period)",
             content: content,
             trigger: nil
         )
-        
+
         UNUserNotificationCenter.current().add(request)
     }
 }

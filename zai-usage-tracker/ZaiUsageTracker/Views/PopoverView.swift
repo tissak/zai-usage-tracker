@@ -171,57 +171,80 @@ struct PopoverView: View {
             if let tokenQuota = data.tokenQuota {
                 QuotaSectionView(quota: tokenQuota)
             }
-            
+
+            WeeklyTokenSectionView(
+                totalTokens: data.weeklyModelUsage.totalTokens,
+                limit: viewModel.weeklyTokenLimit,
+                apiResetTime: data.weeklyResetTime
+            )
+
             if let mcpQuota = data.mcpQuota {
                 QuotaSectionView(quota: mcpQuota)
             }
             
             // Model usage section
             VStack(alignment: .leading, spacing: 8) {
-                Label("Model Usage (24h)", systemImage: "cpu")
-                    .font(.system(size: 13, weight: .semibold))
-                
+                HStack {
+                    Label("Model Usage", systemImage: "cpu")
+                        .font(.system(size: 13, weight: .semibold))
+                    Spacer()
+                    Text("24h / 7d")
+                        .font(.system(size: 11))
+                        .foregroundColor(.secondary)
+                }
+
                 VStack(spacing: 4) {
-                    UsageRowView(
+                    DualPeriodRowView(
                         label: "Total Tokens",
-                        value: data.modelUsage.formattedTokens
+                        value24h: data.modelUsage.formattedTokens,
+                        value7d: DateHelper.formatCompact(data.weeklyModelUsage.totalTokens)
                     )
-                    
-                    UsageRowView(
+
+                    DualPeriodRowView(
                         label: "Total Calls",
-                        value: data.modelUsage.formattedCalls
+                        value24h: data.modelUsage.formattedCalls,
+                        value7d: DateHelper.formatCompact(data.weeklyModelUsage.totalCalls)
                     )
                 }
             }
             .padding(12)
             .background(Color.gray.opacity(0.05))
             .cornerRadius(8)
-            
+
             // Tool usage section (if has data)
-            if data.toolUsage.hasData {
+            if data.toolUsage.hasData || data.weeklyToolUsage.hasData {
                 VStack(alignment: .leading, spacing: 8) {
-                    Label("Tool Usage (24h)", systemImage: "wrench.and.screwdriver")
-                        .font(.system(size: 13, weight: .semibold))
-                    
+                    HStack {
+                        Label("Tool Usage", systemImage: "wrench.and.screwdriver")
+                            .font(.system(size: 13, weight: .semibold))
+                        Spacer()
+                        Text("24h / 7d")
+                            .font(.system(size: 11))
+                            .foregroundColor(.secondary)
+                    }
+
                     VStack(spacing: 4) {
-                        if data.toolUsage.networkSearches > 0 {
-                            UsageRowView(
+                        if data.toolUsage.networkSearches > 0 || data.weeklyToolUsage.networkSearches > 0 {
+                            DualPeriodRowView(
                                 label: "Network Searches",
-                                value: data.toolUsage.formatted(data.toolUsage.networkSearches)
+                                value24h: data.toolUsage.formatted(data.toolUsage.networkSearches),
+                                value7d: DateHelper.formatCompact(data.weeklyToolUsage.networkSearches)
                             )
                         }
-                        
-                        if data.toolUsage.webReads > 0 {
-                            UsageRowView(
+
+                        if data.toolUsage.webReads > 0 || data.weeklyToolUsage.webReads > 0 {
+                            DualPeriodRowView(
                                 label: "Web Reads",
-                                value: data.toolUsage.formatted(data.toolUsage.webReads)
+                                value24h: data.toolUsage.formatted(data.toolUsage.webReads),
+                                value7d: DateHelper.formatCompact(data.weeklyToolUsage.webReads)
                             )
                         }
-                        
-                        if data.toolUsage.zreadCalls > 0 {
-                            UsageRowView(
+
+                        if data.toolUsage.zreadCalls > 0 || data.weeklyToolUsage.zreadCalls > 0 {
+                            DualPeriodRowView(
                                 label: "ZRead Calls",
-                                value: data.toolUsage.formatted(data.toolUsage.zreadCalls)
+                                value24h: data.toolUsage.formatted(data.toolUsage.zreadCalls),
+                                value7d: DateHelper.formatCompact(data.weeklyToolUsage.zreadCalls)
                             )
                         }
                     }
@@ -264,6 +287,29 @@ struct PopoverView: View {
         .background(Color.gray.opacity(0.03))
     }
     
+}
+
+private struct DualPeriodRowView: View {
+    let label: String
+    let value24h: String
+    let value7d: String
+
+    var body: some View {
+        HStack {
+            Text(label)
+                .font(.system(size: 12))
+                .foregroundColor(.secondary)
+            Spacer()
+            Text(value24h)
+                .font(.system(size: 12, weight: .medium))
+            Text("/")
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
+            Text(value7d)
+                .font(.system(size: 12, weight: .medium))
+                .foregroundColor(.secondary)
+        }
+    }
 }
 
 #Preview {
