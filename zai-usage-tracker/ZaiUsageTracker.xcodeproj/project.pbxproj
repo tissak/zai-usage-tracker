@@ -11,6 +11,7 @@
 		4776BF732F41893E00D58C1B /* APIKeyStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4776BF702F41893E00D58C1B /* APIKeyStorage.swift */; };
 		4776BF742F41893E00D58C1B /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4776BF722F41893E00D58C1B /* StorageService.swift */; };
 		4776BF752F41893E00D58C1B /* ConfigFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4776BF712F41893E00D58C1B /* ConfigFileService.swift */; };
+		4790C6A52F468AD00010F02E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4790C6A22F4681910010F02E /* Assets.xcassets */; };
 		A1000001 /* ZaiUsageTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001 /* ZaiUsageTrackerApp.swift */; };
 		A1000002 /* QuotaLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* QuotaLimit.swift */; };
 		A1000003 /* ModelUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003 /* ModelUsage.swift */; };
@@ -214,6 +215,7 @@
 			buildPhases = (
 				A7000001 /* Sources */,
 				A4000001 /* Frameworks */,
+				4790C6A42F468AC70010F02E /* Resources */,
 			);
 			buildRules = (
 			);
@@ -273,6 +275,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4790C6A42F468AC70010F02E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4790C6A52F468AD00010F02E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
